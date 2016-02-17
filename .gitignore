@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Created by .ignore support plugin (hsz.mobi)
 ### Windows template
 # Windows image file caches
@@ -19,6 +20,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 ### Java template
+=======
+>>>>>>> 890eaca85b9aa0229c7075c130fc50f7f683b237
 *.class
 
 # Mobile Tools for Java (J2ME)
@@ -31,6 +34,7 @@ $RECYCLE.BIN/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+<<<<<<< HEAD
 ### Eclipse template
 *.pydevproject
 .metadata
@@ -162,3 +166,5 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+=======
+>>>>>>> 890eaca85b9aa0229c7075c130fc50f7f683b237

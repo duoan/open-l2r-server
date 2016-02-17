@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.github.duonao.learn2rank</groupId>
+    <artifactId>build</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>learn2rank-build</name>
+
+    <description>this project is a generic learn 2 rank platform build on jforests</description>
+
+    <developers>
+        <developer>
+            <id>1</id>
+            <name>anduo</name>
+            <email>anduo at qq dot com</email>
+            <roles>
+                <role>owner</role>
+                <role>develop</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <modules>
+        <module>rank-core</module>
+        <module>rank-admin</module>
+        <module>rank-server</module>
+        <module>rank-api</module>
+    </modules>
+
+    <properties>
+        <slf4j.version>1.7.16</slf4j.version>
+        <junit.version>4.12</junit.version>
+        <lombok.version>1.16.6</lombok.version>
+        <log4j12.version>1.2.7</log4j12.version>
+        <jopt.simple.version>4.9</jopt.simple.version>
+        <maven.compiler.plugin.version>3.3</maven.compiler.plugin.version>
+        <source.encoding>UTF8</source.encoding>
+        <source.version>1.8</source.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- tools -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.jopt-simple</groupId>
+                <artifactId>jopt-simple</artifactId>
+                <version>${jopt.simple.version}</version>
+            </dependency>
+            <!-- log -->
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j12.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <!-- test -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <encoding>${source.encoding}</encoding>
+                            <source>${source.version}</source>
+                            <target>${source.version}</target>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <source>${source.version}</source>
+                    <target>${source.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

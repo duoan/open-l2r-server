@@ -19,6 +19,7 @@ package edu.uci.jforests.tools;
 
 import edu.uci.jforests.input.FeatureValuePair;
 import edu.uci.jforests.input.sparse.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -28,7 +29,7 @@ import java.io.PrintStream;
  *
  * @author Yasser Ganjisaffar <ganjisaffar at gmail dot com>
  */
-
+@Slf4j
 public class Sparse2SvmConvertor {
 
 	public static void convert(String inputFile, String outputFile) throws Exception {
@@ -56,7 +57,7 @@ public class Sparse2SvmConvertor {
 				output.print(sb.toString());
 				count++;
 				if (count % 10000 == 0) {
-					System.out.println("\t Processed: " + count);
+					log.info("\t Processed: " + count);
 				}
 			}
 		}

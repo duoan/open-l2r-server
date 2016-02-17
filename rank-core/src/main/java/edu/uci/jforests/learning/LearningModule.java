@@ -22,11 +22,13 @@ import edu.uci.jforests.learning.trees.Ensemble;
 import edu.uci.jforests.learning.trees.Tree;
 import edu.uci.jforests.learning.trees.TreeLeafInstances;
 import edu.uci.jforests.sample.Sample;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Yasser Ganjisaffar <ganjisaffar at gmail dot com>
  */
 
+@Slf4j
 public abstract class LearningModule {
 
 	protected String algorithmName;
@@ -86,13 +88,13 @@ public abstract class LearningModule {
 			return;
 		}
 		for (int i = 0; i < moduleLevel - 1; i++) {
-			System.out.print("\t");
+			log.info("\t");
 		}
 		if (Double.isNaN(trainMeasurement)) {
-			System.out.println(algorithmName + ": [Iteration: " + iteration + ", Valid: " + validMeasurement + ", Best: " + bestPrintedValidMeasurement
+			log.info(algorithmName + ": [Iteration: " + iteration + ", Valid: " + validMeasurement + ", Best: " + bestPrintedValidMeasurement
 					+ "]");
 		} else {
-			System.out.println(iteration + "\t" + validMeasurement + "\t" + trainMeasurement);
+			log.info(iteration + "\t" + validMeasurement + "\t" + trainMeasurement);
 		}
 	}
 

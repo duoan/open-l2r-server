@@ -23,13 +23,14 @@ import edu.uci.jforests.eval.ranking.RankingEvaluationMetric;
 import edu.uci.jforests.util.ArraysUtil;
 import edu.uci.jforests.util.Constants;
 import edu.uci.jforests.util.FloatingPointUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
 /**
  * @author Yasser Ganjisaffar <ganjisaffar at gmail dot com>
  */
-
+@Slf4j
 public class RankingSample extends Sample {
 
 	public int numQueries;
@@ -354,7 +355,7 @@ public class RankingSample extends Sample {
 	public void printDocsPerQuery() {
 		for (int q = 0; q < numQueries; q++) {
 			int numDocs = queryBoundaries[q + 1] - queryBoundaries[q];
-			System.out.println(numDocs);
+			log.info(String.valueOf(numDocs));
 		}
 	}
 }

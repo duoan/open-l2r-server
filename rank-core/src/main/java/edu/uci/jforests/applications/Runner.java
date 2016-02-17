@@ -33,6 +33,7 @@ import edu.uci.jforests.sample.Sample;
 import edu.uci.jforests.util.IOUtils;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.InputStream;
@@ -43,18 +44,18 @@ import java.util.Properties;
 /**
  * @author Yasser Ganjisaffar <ganjisaffar at gmail dot com>
  */
-
+@Slf4j
 public class Runner {
 
     @SuppressWarnings("unchecked")
     private static void generateBin(OptionSet options) throws Exception {
         if (!options.has("folder")) {
-            System.err.println("The input folder is not specified.");
+            log.error("The input folder is not specified.");
             return;
         }
 
         if (!options.has("file")) {
-            System.err.println("Input files are not specified.");
+            log.error("Input files are not specified.");
             return;
         }
 
@@ -68,17 +69,17 @@ public class Runner {
 
 
         if (options.has("ranking")) {
-            System.out.println("Generating binary files for ranking data sets...");
+            log.info("Generating binary files for ranking data sets...");
             new RankingRaw2BinConvertor().convert(folder, files);
         } else {
-            System.out.println("Generating binary files...");
+            log.info("Generating binary files...");
             new Raw2BinConvertor().convert(folder, files);
         }
     }
 
     private static void train(OptionSet options) throws Exception {
         if (!options.has("config-file")) {
-            System.err.println("The configurations file is not specified.");
+            log.error("The configurations file is not specified.");
             return;
         }
 
@@ -144,12 +145,12 @@ public class Runner {
         String folder = (String) options.valueOf("folder");
         boolean hasFolder = options.has("folder");
         if (!options.has("model-file")) {
-            System.err.println("Model file is not specified.");
+            log.error("Model file is not specified.");
             return;
         }
 
         if (!options.has("tree-type")) {
-            System.err.println("Types of trees in the ensemble is not specified.");
+            log.error("Types of trees in the ensemble is not specified.");
             return;
         }
 
@@ -172,7 +173,7 @@ public class Runner {
         } else if (options.valueOf("tree-type").equals("DecisionTree")) {
             ensemble.loadFromFile(DecisionTree.class, modelFile);
         } else {
-            System.err.println("Unknown tree type: " + options.valueOf("tree-type"));
+            log.error("Unknown tree type: " + options.valueOf("tree-type"));
         }
 
 		/*
@@ -198,7 +199,7 @@ public class Runner {
         double[] predictions = new double[sample.size];
         LearningUtils.updateScores(sample, predictions, ensemble);
         final long stopms = System.currentTimeMillis();
-        System.err.println(sample.size + " predictions in " + (stopms - startms) + " ms");
+        log.warn(sample.size + " predictions in " + (stopms - startms) + " ms");
 
         PrintStream output;
         if (options.has("output-file")) {
@@ -213,7 +214,7 @@ public class Runner {
 
         for (int i = 0; i < sample.size; i++) {
             output.println(sample.indicesInDataset[i] + " " + predictions[i]);
-            System.out.println(sample.indicesInDataset[i] + " predict score is " + predictions[i]);
+            log.info(sample.indicesInDataset[i] + " predict score is " + predictions[i]);
         }
 
     }
@@ -251,7 +252,7 @@ public class Runner {
         OptionSet options = parser.parse(args);
 
         if (!options.has("cmd")) {
-            System.err.println("You must specify the command through 'cmd' parameter.");
+            log.error("You must specify the command through 'cmd' parameter.");
             return;
         }
 
@@ -262,7 +263,7 @@ public class Runner {
         } else if (options.valueOf("cmd").equals("predict")) {
             predict(options);
         } else {
-            System.err.println("Unknown command: " + options.valueOf("cmd"));
+            log.error("Unknown command: " + options.valueOf("cmd"));
         }
 
 		/*

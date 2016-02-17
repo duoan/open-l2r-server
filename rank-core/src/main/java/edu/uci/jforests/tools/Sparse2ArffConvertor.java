@@ -19,6 +19,7 @@ package edu.uci.jforests.tools;
 
 import edu.uci.jforests.input.FeatureValuePair;
 import edu.uci.jforests.input.sparse.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -29,7 +30,7 @@ import java.io.PrintStream;
  *
  * @author Yasser Ganjisaffar <ganjisaffar at gmail dot com>
  */
-
+@Slf4j
 public class Sparse2ArffConvertor {
 	
 	private SparseTextFileReader reader;
@@ -132,7 +133,7 @@ public class Sparse2ArffConvertor {
 			processLine(line);
 			count++;
 			if (count % 10000 == 0) {
-				System.out.println("\t Processed: " + count);
+				log.info("\t Processed: " + count);
 			}
 		}
 		reader.close();

@@ -34,6 +34,8 @@ import edu.uci.jforests.util.Constants;
 import edu.uci.jforests.util.IOUtils;
 import edu.uci.jforests.util.Timer;
 import edu.uci.jforests.util.concurrency.BlockingThreadPoolExecutor;
+import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.XSlf4j;
 
 import java.io.InputStream;
 import java.util.Properties;
@@ -42,7 +44,7 @@ import java.util.Random;
 /**
  * @author Yasser Ganjisaffar <ganjisaffar at gmail dot com>
  */
-
+@Slf4j
 public class ClassificationApp {
 
 	protected Dataset trainDataset;
@@ -190,12 +192,12 @@ public class ClassificationApp {
 			configHolder = new ConfigHolder(configProperties);
 			loadConfig();
 			if (!trainingConfig.validate(ioUtils)) {
-				System.out.println("Error: " + trainingConfig.getErrorMessage());
+				log.info("Error: " + trainingConfig.getErrorMessage());
 				return null;
 			}
 			rnd = new Random(trainingConfig.randomSeed);
 
-			System.out.println("Loading datasets...");
+			log.info("Loading datasets...");
 			if (trainDataset == null) {
 				trainDataset = newDataset();
 			}
@@ -213,7 +215,7 @@ public class ClassificationApp {
 			} else {
 				validDataset = null;
 			}
-			System.out.println("Finished loading datasets.");
+			log.info("Finished loading datasets.");
 
 			Constants.init(maxInstances);
 
@@ -238,7 +240,7 @@ public class ClassificationApp {
 			Timer timer = new Timer();
 			timer.start();
 			Ensemble ensemble = topLearner.learn(trainSet, validSet);
-			System.out.println("Time taken to build model: " + (timer.getElapsedMillis() / 1000.0) + " seconds.");
+			log.info("Time taken to build model: " + (timer.getElapsedMillis() / 1000.0) + " seconds.");
 			return ensemble;
 
 		} catch (Exception e) {

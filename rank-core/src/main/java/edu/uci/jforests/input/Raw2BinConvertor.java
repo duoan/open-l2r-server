@@ -18,6 +18,7 @@
 package edu.uci.jforests.input;
 
 import edu.uci.jforests.util.Util;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -25,7 +26,7 @@ import java.io.PrintStream;
 /**
  * @author Yasser Ganjisaffar <ganjisaffar at gmail dot com>
  */
-
+@Slf4j
 public class Raw2BinConvertor {
 
     protected String inputFile;
@@ -45,7 +46,7 @@ public class Raw2BinConvertor {
 
         File featuresFile = new File(featureStatsFile);
         if (featuresFile.exists()) {
-            System.out.println("File: " + featuresFile + " already exists. Skipping it.");
+            log.info("File: " + featuresFile + " already exists. Skipping it.");
         } else {
             /*
 			 * Extract feature statistics

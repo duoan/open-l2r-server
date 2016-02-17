@@ -17,6 +17,8 @@
 
 package edu.uci.jforests.tools;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -26,7 +28,7 @@ import java.util.*;
 /**
  * @author Yasser Ganjisaffar <ganjisaffar at gmail dot com>
  */
-
+@Slf4j
 public class FoldGenerator {
 
 	public void generate(String inputFilename, int folds, String foldsFolder, boolean addTestSet) throws Exception {
@@ -58,7 +60,7 @@ public class FoldGenerator {
 			instanceIds.add(curId);
 			curId++;
 			if (curId % 10000 == 0) {
-				System.out.println("Loaded " + curId + " lines.");
+				log.info("Loaded " + curId + " lines.");
 			}			
 		}
 		reader.close();
@@ -100,7 +102,7 @@ public class FoldGenerator {
 			}
 			curId++;
 			if (curId % 10000 == 0) {
-				System.out.println("Dumped " + curId + " lines.");
+				log.info("Dumped " + curId + " lines.");
 			}
 		}
 		reader.close();

@@ -1,5 +1,7 @@
 package edu.uci.jforests.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
 *
 *This class contains routines to calculate the
@@ -10,7 +12,7 @@ package edu.uci.jforests.util;
 *@version .6 --- January 10, 2001 (normcdf added)
 *
 */
-
+@Slf4j
 public class CDF_Normal extends Object {
 
 /**
@@ -212,8 +214,8 @@ C
 
    public static void main(String[] arg) {
 	   for (int i = 0; i <= 60; i++)
-		   System.out.println(CDF_Normal.normp(-3 + (0.1 * i)) + ",");
-	   System.out.println("");
+          log.info(CDF_Normal.normp(-3 + (0.1 * i)) + ",");
+      log.info("");
 	   
    }
 }

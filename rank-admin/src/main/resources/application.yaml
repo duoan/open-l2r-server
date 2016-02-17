@@ -1,0 +1,23 @@
+info:
+  version: 1.0-SNAPSHOT
+  stage: test
+
+logging:
+  file: target/boot-admin-sample.log
+
+spring:
+  application:
+    name: learn2rank-admin
+  boot:
+
+    admin:
+      url: http://localhost:8080
+      username: admin
+      password: admin123
+  cloud:
+    config:
+      enabled: false
+
+endpoints:
+  health:
+    sensitive: false

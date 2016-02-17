@@ -19,6 +19,7 @@ package edu.uci.jforests.input;
 
 import edu.uci.jforests.input.sparse.SparseTextFileLine;
 import edu.uci.jforests.input.sparse.SparseTextFileReader;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -34,12 +35,13 @@ import java.util.zip.GZIPOutputStream;
  * @author Yasser Ganjisaffar <ganjisaffar at gmail dot com>
  */
 
+@Slf4j
 public class DiscreteSparseTextFileGenerator {
 
 	public static void convert(String inputFilename, String featuresStatFile, String outputFilename) {
 		
 		if (new File(outputFilename).exists()) {
-			System.out.println("File: " + outputFilename + " already exists. Skipping it.");
+			log.info("File: " + outputFilename + " already exists. Skipping it.");
 			return;
 		}
 		

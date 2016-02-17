@@ -26,13 +26,14 @@ import edu.uci.jforests.learning.trees.TreeLeafInstances;
 import edu.uci.jforests.sample.Predictions;
 import edu.uci.jforests.sample.Sample;
 import edu.uci.jforests.util.ConfigHolder;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Random;
 
 /**
  * @author Yasser Ganjisaffar <ganjisaffar at gmail dot com>
  */
-
+@Slf4j
 public abstract class Bagging extends LearningModule {
 
 	protected int bagCount;
@@ -80,7 +81,7 @@ public abstract class Bagging extends LearningModule {
 		Ensemble ensemble = new Ensemble();
 		subLearner.setTreeWeight(treeWeight / bagCount);
 		for (int iteration = 1; iteration <= bagCount; iteration++) {
-			System.out.println("Iteration: " + iteration);
+			log.info("Iteration: " + iteration);
 			Sample subLearnerTrainSet = trainSet.getRandomSubSample(baggingTrainFraction, rnd);
 			//((TreeLearner) subLearner).setRnd();
 			Sample subLearnerOutOfTrainSet = trainSet.getOutOfSample(subLearnerTrainSet);
@@ -94,7 +95,7 @@ public abstract class Bagging extends LearningModule {
 					tree.backfit(subLearnerOutOfTrainSet);
 				}
 				ensemble.addTree(tree, curTreeWeight);
-				System.out.println(tree.numLeaves);
+				log.info(String.valueOf(tree.numLeaves));
 			}
 
 			if (validSet != null && !validSet.isEmpty()) {

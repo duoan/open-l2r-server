@@ -17,18 +17,22 @@
 
 package edu.uci.jforests.input;
 
+import com.google.common.base.Stopwatch;
 import edu.uci.jforests.dataset.*;
 import edu.uci.jforests.input.sparse.SparseTextFileLine;
 import edu.uci.jforests.input.sparse.SparseTextFileReader;
 import edu.uci.jforests.util.ArraysUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Yasser Ganjisaffar <ganjisaffar at gmail dot com>
  */
+@Slf4j
 
 public class BinaryFileGenerator {
 
@@ -47,6 +51,7 @@ public class BinaryFileGenerator {
 	private String textFile;
 	private String featuresStatFile;
 	private java.util.Timer timer;
+	private Stopwatch stopwatch;
 
 	protected String binFile;
 	protected BinaryFileWriter writer;
@@ -56,6 +61,7 @@ public class BinaryFileGenerator {
 		this.featuresStatFile = featuresStatFile;
 		this.binFile = binFile;
 		timer = new java.util.Timer();
+		stopwatch = Stopwatch.createUnstarted();
 	}
 
 	protected void handle(SparseTextFileLine line) {
@@ -63,8 +69,8 @@ public class BinaryFileGenerator {
 	}
 
 	protected void loadValueHashMaps() {
-		timer.start();
-		System.out.print("Loading values...");
+		stopwatch.reset().start();
+		log.info("Loading values...");
 		valueHashMaps = new ArrayList<HashMap<Integer, Integer>>(featureCount);
 		for (int f = 0; f < featureCount; f++) {
 			valueHashMaps.add(new HashMap<Integer, Integer>());
@@ -95,12 +101,13 @@ public class BinaryFileGenerator {
 			instanceCount++;
 		}
 		reader.close();
-		System.out.println("  [Done in: " + timer.getElapsedSeconds() + " seconds.]");
+
+		log.info("  [Done in: " + stopwatch.stop().elapsed(TimeUnit.SECONDS) + " seconds.]");
 	}
 
 	private void makeDistributions() {
-		timer.start();
-		System.out.print("Making distributions...");
+		stopwatch.reset().start();
+		log.info("Making distributions...");
 		valueDistributions = new int[featureCount][];
 		totalCount = new int[featureCount];
 
@@ -121,12 +128,12 @@ public class BinaryFileGenerator {
 			Collections.sort(valueMap);
 			valueDistributions[f] = ArraysUtil.toArray(valueMap);
 		}
-		System.out.println("  [Done in: " + timer.getElapsedSeconds() + " seconds.]");
+		log.info("  [Done in: " + stopwatch.stop().elapsed(TimeUnit.SECONDS) + " seconds.]");
 	}
 
 	private void makeBins() throws Exception {
-		System.out.println("Making bins...");
-		timer.start();
+		log.info("Making bins...");
+		stopwatch.reset().start();
 		bins = new NumericArray[featureCount];
 		for (int i = 0; i < featureCount; i++) {
 			int numValues = valueDistributions[i].length;
@@ -144,7 +151,7 @@ public class BinaryFileGenerator {
 				throw new Exception("One of your features ("+i+") have more than " + Integer.MAX_VALUE
 						+ " distinct values. The support for this feature is not implemented yet.");
 			}
-			System.out.println("Feature: " + i + ", type: " + bins[i].getType().toString());
+			log.info("Feature: " + i + ", type: " + bins[i].getType().toString());
 		}
 
 		targets = new double[instanceCount];
@@ -171,12 +178,12 @@ public class BinaryFileGenerator {
 			instanceIdx++;
 		}
 		reader.close();
-		System.out.println("  [Done in: " + timer.getElapsedSeconds() + " seconds.]");
+		log.info("  [Done in: " + stopwatch.stop().elapsed(TimeUnit.SECONDS) + " seconds.]");
 	}
 
 	private void makeFeatures() {
-		System.out.print("Making features...");
-		timer.start();
+		log.info("Making features...");
+		stopwatch.reset().start();
 		features = new Feature[featureCount];
 		for (int f = 0; f < featureCount; f++) {
 			features[f] = new Feature(bins[f]);
@@ -187,7 +194,7 @@ public class BinaryFileGenerator {
 			features[f].setFactor(featureAnalyzer.factor[f]);
 			features[f].setOnLogScale(featureAnalyzer.onLogScale[f]);
 		}
-		System.out.println("  [Done in: " + timer.getElapsedSeconds() + " seconds.]");
+		log.info("  [Done in: " + stopwatch.stop().elapsed(TimeUnit.SECONDS) + " seconds.]");
 	}
 
 	protected void createBinFile() {
@@ -195,16 +202,16 @@ public class BinaryFileGenerator {
 	}
 
 	private void writeBinFile() {
-		timer.start();
-		System.out.print("Creating bin file...");
+		stopwatch.reset().start();
+		log.info("Creating bin file...");
 		writer.write();
 		writer.close();
-		System.out.println("  [Done in: " + timer.getElapsedSeconds() + " seconds.]");
+		log.info("  [Done in: " + stopwatch.stop().elapsed(TimeUnit.SECONDS) + " seconds.]");
 	}
 
 	public void convert() throws Exception {
 		if (new File(binFile).exists()) {
-			System.out.println("File: " + binFile + " already exists. Skipping it.");
+			log.info("File: " + binFile + " already exists. Skipping it.");
 			return;
 		}
 		featureAnalyzer = new FeatureAnalyzer();
@@ -217,5 +224,9 @@ public class BinaryFileGenerator {
 		makeFeatures();
 		createBinFile();
 		writeBinFile();
+	}
+
+	public Timer getTimer() {
+		return timer;
 	}
 }

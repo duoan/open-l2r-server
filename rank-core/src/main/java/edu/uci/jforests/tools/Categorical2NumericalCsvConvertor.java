@@ -17,6 +17,8 @@
 
 package edu.uci.jforests.tools;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -33,7 +35,7 @@ import java.util.Map;
  *
  * @author Yasser Ganjisaffar <ganjisaffar at gmail dot com>
  */
-
+@Slf4j
 public class Categorical2NumericalCsvConvertor {
 	
 	Map<Integer, Map<String, Integer>> perFeatureMappings;
@@ -62,7 +64,7 @@ public class Categorical2NumericalCsvConvertor {
 		try {
 			File outputFile = new File(outputFilename);
 			if (outputFile.exists()) {
-				System.out.println("File: " + outputFilename + " already exists. Skipping it.");
+				log.info("File: " + outputFilename + " already exists. Skipping it.");
 				return;
 			}
 			BufferedReader reader = new BufferedReader(new FileReader(new File(inputFilename)));
@@ -89,7 +91,7 @@ public class Categorical2NumericalCsvConvertor {
 			int curSize = 0;
 			String[] parts;
 			int commentStartIdx;
-			perFeatureMappings = new HashMap<Integer, Map<String,Integer>>();
+			perFeatureMappings = new HashMap<>();
 			do {
 				String comment;
 				commentStartIdx = line.indexOf('#');
@@ -123,13 +125,13 @@ public class Categorical2NumericalCsvConvertor {
 				}
 				lineCount++;
 				if (lineCount % 10000 == 0) {
-					System.out.print("\rProcessed lines: " + lineCount);
+					log.info("\rProcessed lines: " + lineCount);
 				}
 			} while ((line = reader.readLine()) != null);
 			if (curSize > 0) {
 				output.print(sb.toString());
 			}
-			System.out.println();
+			log.info("\n");
 			reader.close();
 			output.close();
 		} catch (Exception e) {

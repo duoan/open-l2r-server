@@ -10,12 +10,12 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.github.duonao.learn2rank</groupId>
+    <groupId>io.github.fullstack.rank.platform</groupId>
     <artifactId>build</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <name>learn2rank-build</name>
+    <name>mathine-learning-rank-platform-build</name>
 
     <description>this project is a generic learn 2 rank platform build on jforests</description>
 
@@ -32,11 +32,32 @@
     </developers>
 
     <modules>
-        <module>rank-core</module>
-        <module>rank-admin</module>
-        <module>rank-server</module>
-        <module>rank-api</module>
+        <module>core</module>
+        <module>admin</module>
+        <module>server</module>
+        <module>api</module>
     </modules>
+
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <name>Spring Releases</name>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+        <repository>
+            <id>org.jboss.repository.releases</id>
+            <name>JBoss Maven Release Repository</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <name>Spring Releases</name>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <properties>
         <slf4j.version>1.7.16</slf4j.version>
@@ -44,7 +65,6 @@
         <lombok.version>1.16.6</lombok.version>
         <log4j12.version>1.2.7</log4j12.version>
         <jopt.simple.version>4.9</jopt.simple.version>
-        <scala.version>2.11.7</scala.version>
         <source.encoding>UTF8</source.encoding>
         <source.version>1.8</source.version>
 
@@ -53,12 +73,6 @@
 
     <dependencyManagement>
         <dependencies>
-
-            <dependency>
-                <groupId>org.scala-lang</groupId>
-                <artifactId>scala-library</artifactId>
-                <version>${scala.version}</version>
-            </dependency>
 
             <!-- tools -->
             <dependency>

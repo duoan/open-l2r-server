@@ -4,12 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>build</artifactId>
-        <groupId>io.github.duonao.learn2rank</groupId>
+        <groupId>io.github.fullstack.rank.platform</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>rank-api</artifactId>
+    <artifactId>server</artifactId>
     <version>${parent.version}</version>
 
 

@@ -5,4 +5,4 @@
  * Date   : 16/2/17
  * Time   : 下午2:18
  */
-package io.github.duonao.learn2rank.admin;
+package io.github.fullstack.rank.platform.admin;
